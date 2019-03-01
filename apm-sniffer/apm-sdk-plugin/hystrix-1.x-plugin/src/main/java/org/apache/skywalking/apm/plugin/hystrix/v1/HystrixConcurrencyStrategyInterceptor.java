@@ -19,8 +19,14 @@
 
 package org.apache.skywalking.apm.plugin.hystrix.v1;
 
+import com.netflix.hystrix.strategy.HystrixPlugins;
 import com.netflix.hystrix.strategy.concurrency.HystrixConcurrencyStrategy;
 import java.lang.reflect.Method;
+
+import com.netflix.hystrix.strategy.eventnotifier.HystrixEventNotifier;
+import com.netflix.hystrix.strategy.executionhook.HystrixCommandExecutionHook;
+import com.netflix.hystrix.strategy.metrics.HystrixMetricsPublisher;
+import com.netflix.hystrix.strategy.properties.HystrixPropertiesStrategy;
 import org.apache.skywalking.apm.agent.core.plugin.interceptor.enhance.EnhancedInstance;
 import org.apache.skywalking.apm.agent.core.plugin.interceptor.enhance.InstanceMethodsAroundInterceptor;
 import org.apache.skywalking.apm.agent.core.plugin.interceptor.enhance.MethodInterceptResult;
@@ -34,8 +40,46 @@ public class HystrixConcurrencyStrategyInterceptor implements InstanceMethodsAro
 
     @Override
     public Object afterMethod(EnhancedInstance objInst, Method method, Object[] allArguments, Class<?>[] argumentsTypes,
-        Object ret) throws Throwable {
-        return new SWHystrixConcurrencyStrategyWrapper((HystrixConcurrencyStrategy)ret);
+                              Object ret) throws Throwable {
+        SWHystrixPluginsWrapperCache wrapperCache = (SWHystrixPluginsWrapperCache) objInst.getSkyWalkingDynamicField();
+        if (wrapperCache == null || wrapperCache.getSwHystrixConcurrencyStrategyWrapper() == null) {
+            synchronized (objInst) {
+                if (wrapperCache == null) {
+                    wrapperCache = new SWHystrixPluginsWrapperCache();
+                    objInst.setSkyWalkingDynamicField(wrapperCache);
+                }
+                if (wrapperCache.getSwHystrixConcurrencyStrategyWrapper() == null) {
+                    // Return and register wrapper only for the first time
+                    // Try to believe that all other strategies will use the their delegates
+                    SWHystrixConcurrencyStrategyWrapper wrapper = new SWHystrixConcurrencyStrategyWrapper((HystrixConcurrencyStrategy) ret);
+                    wrapperCache.setSwHystrixConcurrencyStrategyWrapper(wrapper);
+
+                    registerSWHystrixConcurrencyStrategyWrapper(wrapper);
+
+                    return wrapper;
+                }
+            }
+        }
+        return ret;
+    }
+
+    private void registerSWHystrixConcurrencyStrategyWrapper(SWHystrixConcurrencyStrategyWrapper wrapper) {
+        // Copy from Spring Cloud Sleuth
+        HystrixCommandExecutionHook commandExecutionHook = HystrixPlugins
+                .getInstance().getCommandExecutionHook();
+        HystrixEventNotifier eventNotifier = HystrixPlugins.getInstance()
+                .getEventNotifier();
+        HystrixMetricsPublisher metricsPublisher = HystrixPlugins.getInstance()
+                .getMetricsPublisher();
+        HystrixPropertiesStrategy propertiesStrategy = HystrixPlugins.getInstance()
+                .getPropertiesStrategy();
+        HystrixPlugins.reset();
+        HystrixPlugins.getInstance().registerConcurrencyStrategy(wrapper);
+        HystrixPlugins.getInstance()
+                .registerCommandExecutionHook(commandExecutionHook);
+        HystrixPlugins.getInstance().registerEventNotifier(eventNotifier);
+        HystrixPlugins.getInstance().registerMetricsPublisher(metricsPublisher);
+        HystrixPlugins.getInstance().registerPropertiesStrategy(propertiesStrategy);
     }
 
     @Override public void handleMethodException(EnhancedInstance objInst, Method method, Object[] allArguments,

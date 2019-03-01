@@ -1,9 +1,9 @@
 Apache SkyWalking
 ==========
 
-<img src="https://skywalkingtest.github.io/page-resources/3.0/skywalking.png" alt="Sky Walking logo" height="90px" align="right" />
+<img src="http://skywalking.apache.org/assets/logo.svg" alt="Sky Walking logo" height="90px" align="right" />
 
-**SkyWalking**: APM (application performance monitor) tool for distributed systems, especially designed for
+**SkyWalking**: an APM(application performance monitor) system, especially designed for 
 microservices, cloud native and container-based (Docker, Kubernetes, Mesos) architectures.
 
 [![GitHub stars](https://img.shields.io/github/stars/apache/incubator-skywalking.svg?style=for-the-badge&label=Stars&logo=github)](https://github.com/apache/incubator-skywalking)
@@ -16,77 +16,99 @@ microservices, cloud native and container-based (Docker, Kubernetes, Mesos) arch
 [![OpenTracing-1.x Badge](https://img.shields.io/badge/OpenTracing--1.x-enabled-blue.svg)](http://opentracing.io)
 
 # Abstract
-**SkyWalking** started as a distributed tracing system in 2015. From 5.x, it evolved to the fully functional [Application Performance Management](https://en.wikipedia.org/wiki/Application_performance_management)
-system. It is used for tracing, monitoring, diagnose distributed systems, especially based on microservices, cloud native and container,
-including:
-- Distributed tracing and context propagation
-- Application, instance, service metrics analysis
+**SkyWalking** is an open source APM system, including monitoring, tracing, diagnosing capabilities for distributed system
+in Cloud Native architecture. 
+The core features are following.
+
+- Service, service instance, endpoint metrics analysis
 - Root cause analysis
-- Application topology map analysis
-- Application and service dependency analysis
-- Slow service detected
+- Service topology map analysis
+- Service, service instance and endpoint dependency analysis
+- Slow services and endpoints detected
 - Performance optimization
+- Distributed tracing and context propagation
+- Database access metric. Detect slow database access statements(including SQL statements).
+- Alarm
 
-# Core features
-- Multiple languages instrumentation agent or libraries
-  - Native Java auto instrumentation agent. Trace and monitor your cluster without changing any source codes
-  - Community instrumentation agent or libraries
-    * [.NET Core](https://github.com/OpenSkywalking/skywalking-netcore)
-    * [Node.js](https://github.com/OpenSkywalking/skywalking-nodejs)
-- Multiple storage backends: ElasticSearch, H2
-- [OpenTracing](http://opentracing.io/) compatible
-  - Native Java auto instrumentation agent could work with OpenTracing APIs in the same context
-- Lightweight and powerful backend aggregation and analysis capabilities
-- Modern and cool Web UI
-- Log integration
-- Alarm for slow or unstable(low SLA) application, instance and service
-- [**Incubating**] Support accepting other tracer data formats.
-  - Zipkin JSON, Thrift, Protobuf v1 and v2 formats, powered by [OpenZipkin](https://github.com/openzipkin/zipkin) libs
-  - Jaeger in [Zipkin Thrift or JSON v1/v2 formats](https://github.com/jaegertracing/jaeger#backwards-compatibility-with-zipkin)
 
-# Announcement
-After SkyWalking 5.0.0-beta2 released, all core features have been provided. For 5 series, we are trying to make them stable from now. At the same time, we have already begun our works for 6 series, in branch `6.0`. It will be a long way to have the first alpha release for it. So if you want to take part in the challengeable works, welcome, but don't consider to use that. Please read the [6.0 documents](https://github.com/apache/incubator-skywalking/blob/6.0/docs/README.md) first.
+<img src="http://skywalking.apache.org/assets/frame.jpeg"/>
+
+SkyWalking supports to collect telemetry (traces and metrics) data from multiple sources
+and multiple formats, 
+including 
+1. Java, .NET Core, NodeJS and PHP auto-instrument agents in SkyWalking format
+1. Istio telemetry format
+1. Zipkin v1/v2 formats
+
 
 # Document
-- [Documents in English](docs/README.md)
-- [Documents in Chinese](docs/README_ZH.md)
+- [6.x Documents](docs/README.md). 
 
-# 5.x Architecture
-<img src="https://skywalkingtest.github.io/page-resources/5.0/architecture.png"/>
+
+# Downloads
+Please head to the [releases page](http://skywalking.apache.org/downloads/) to download a release of Apache SkyWalking.
+
 
 # Code of conduct
-This project adheres to the Contributor Covenant [code of conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to wusheng@apache.org.
+This project adheres to the Contributor Covenant [code of conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. 
+Please report unacceptable behavior to dev@skywalking.apache.org .
 
 # Live Demo
-- Host in Beijing. [goto](http://49.4.12.44:8080/)
+- Host in Beijing. [goto](http://106.75.237.45:8080/)
   - Username: admin
   - Password: admin
 
 # Screenshot
-<img src="https://skywalkingtest.github.io/page-resources/5.0.0-beta2/Dashboard.png"/>
-
-
-- [See all screenshots](/docs/Screenshots.md)
+<table>
+  <tr>
+    <td width="50%" align="center"><b>Under javaagent observing</b></td>
+    <td width="50%" align="center"><b>Observe on Istio</b></td>
+  </tr>
+  <tr>
+    <td><img src="http://skywalking.apache.org/screenshots/6.0.0-alpha/Topology.png"/>
+</td>
+    <td><img src="http://skywalking.apache.org/screenshots/6.0.0-alpha/Istio/Topology.png"/>
+</td>
+   <tr>
+     <td align="center"><a href="docs/Screenshots.md#agent">More screenshots</a></td>
+     <td align="center"><a href="docs/Screenshots.md#istio">More screenshots</a></td>
+  </tr>
+</table>
 
 # Compiling project
-Follow this [document](https://github.com/apache/incubator-skywalking/blob/master/docs/en/How-to-build.md).
+Follow this [document](docs/en/guides/How-to-build.md).
 
 # Contact Us
-* Submit an issue
-* Mail list: dev@skywalking.apache.org
+* Submit an [issue](https://github.com/apache/incubator-skywalking/issues)
+* Mail list: **dev@skywalking.apache.org**. Mail to `dev-subscribe@skywalking.apache.org`, follow the reply to subscribe the mail list.
 * [Gitter](https://gitter.im/openskywalking/Lobby)
 * QQ Group: 392443393
 
-# Users
-<img src="https://skywalkingtest.github.io/page-resources/users/users-2018-08-12.png"/>
+# Who Uses SkyWalking?
+A wide variety of companies and organizations use SkyWalking for research, production and commercial product.
+Here is the **User Wall** of SkyWalking.
 
-- [Users list](docs/uses.md)
-- [Submit new user to us.](https://github.com/apache/incubator-skywalking/issues/443)
+<img src="http://skywalking.apache.org/assets/users-20190222.png"/>
+
+Users are encouraged to add themselves to the [PoweredBy](docs/powered-by.md) page.
+
+# Landscapes
 
 <p align="center">
-<a href="https://openapm.io"><img src="https://openapm.io/static/media/openapm_logo.svg" width="100"/></a>
+<br/><br/>
+<img src="https://landscape.cncf.io/images/left-logo.svg" width="150"/>&nbsp;&nbsp;<img src="https://landscape.cncf.io/images/right-logo.svg" width="200"/>
+<br/><br/>
+SkyWalking enriches the <a href="https://landscape.cncf.io/landscape=observability-and-analysis&license=apache-license-2-0">CNCF CLOUD NATIVE Landscape.
+
+</p>
+
+<p align="center">
+<a href="https://openapm.io"><img src="https://openapm.io/static/media/openapm_logo.svg" width="100"/></a> 
   <br/>Our project enriches the <a href="https://openapm.io">OpenAPM Landscape!</a>
 </p>
+
+# Stargazers over time
+[![Stargazers over time](https://starcharts.herokuapp.com/apache/incubator-skywalking.svg)](https://starcharts.herokuapp.com/apache/incubator-skywalking)
 
 # License
 [Apache 2.0 License.](/LICENSE)

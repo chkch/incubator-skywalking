@@ -68,7 +68,7 @@ public class ComponentsDefine {
 
     public static final OfficialComponent JEDIS =  new OfficialComponent(30, "Jedis");
 
-    public static final OfficialComponent H2_JDBC_DRIVER =  new OfficialComponent(32, "h2-jdbc-driver");
+    public static final OfficialComponent H2_JDBC_DRIVER =  new OfficialComponent(32, "jdbc-jdbc-driver");
 
     public static final OfficialComponent MYSQL_JDBC_DRIVER = new OfficialComponent(33, "mysql-connector-java");
 
@@ -96,6 +96,24 @@ public class ComponentsDefine {
 
     public static final  OfficialComponent ACTIVEMQ_CONSUMER = new OfficialComponent(46,"activemq-consumer");
 
+    public static final OfficialComponent TRANSPORT_CLIENT =  new OfficialComponent(48, "transport-client");
+
+    public static final OfficialComponent UNDERTOW =  new OfficialComponent(49, "Undertow");
+
+    public static final OfficialComponent RABBITMQ_PRODUCER = new OfficialComponent(52,"rabbitmq-producer");
+
+    public static final OfficialComponent RABBITMQ_CONSUMER = new OfficialComponent(53,"rabbitmq-consumer");
+
+    public static final OfficialComponent CANAL = new OfficialComponent(54,"Canal");
+  
+    public static final OfficialComponent GSON = new OfficialComponent(55,"Gson");
+  
+    public static final OfficialComponent REDISSON =  new OfficialComponent(56, "Redisson");
+
+    public static final OfficialComponent LETTUCE =  new OfficialComponent(57, "Lettuce");
+
+    public static final OfficialComponent ZOOKEEPER =  new OfficialComponent(58, "Zookeeper");
+
     private static ComponentsDefine INSTANCE = new ComponentsDefine();
 
     private String[] components;
@@ -105,7 +123,7 @@ public class ComponentsDefine {
     }
 
     public ComponentsDefine() {
-        components = new String[47];
+        components = new String[59];
         addComponent(TOMCAT);
         addComponent(HTTPCLIENT);
         addComponent(DUBBO);
@@ -141,8 +159,14 @@ public class ComponentsDefine {
         addComponent(SOFARPC);
         addComponent(ACTIVEMQ_PRODUCER);
         addComponent(ACTIVEMQ_CONSUMER);
-
-
+        addComponent(UNDERTOW);
+        addComponent(RABBITMQ_PRODUCER);
+        addComponent(RABBITMQ_CONSUMER);
+        addComponent(CANAL);
+        addComponent(GSON);
+        addComponent(REDISSON);
+        addComponent(LETTUCE);
+        addComponent(ZOOKEEPER);
     }
 
     private void addComponent(OfficialComponent component) {
